@@ -1,0 +1,14 @@
+<section class="page">
+  <h1>Administration</h1>
+  <p class="subtitle">Manage recipe types, ingredient categories and allergens.</p>
+
+  <mat-tab-group animationDuration="0ms">
+    @for (catalog of catalogs; track catalog.type) {
+      <mat-tab [label]="catalog.label">
+        <ng-template matTabContent>
+          <app-catalog-table [type]="catalog.type" [label]="catalog.label" />
+        </ng-template>
+      </mat-tab>
+    }
+  </mat-tab-group>
+</section>
