@@ -1,0 +1,68 @@
+<section class="profile-page">
+  @if (state$ | async; as state) {
+    @if (state.status === 'loaded') {
+      <mat-card class="profile-card" appearance="outlined">
+        <div class="banner" aria-hidden="true"></div>
+
+        <div class="header">
+          <img
+            class="avatar"
+            [src]="state.profile.profileImage || defaultAvatarUrl"
+            [alt]="'Profile picture of ' + state.profile.username"
+            (error)="onAvatarError($event)"
+          />
+
+          <div class="identity">
+            <h1 class="username">
+              {{ state.profile.username }}
+              @if (state.isOwn) {
+                <span class="own-badge">Your profile</span>
+              }
+            </h1>
+
+            <p class="region">
+              <mat-icon aria-hidden="true">location_on</mat-icon>
+              {{ state.profile.region || 'Region not set' }}
+            </p>
+          </div>
+
+          <div class="stat">
+            <span class="stat-value">{{ state.profile.recipeCount }}</span>
+            <span class="stat-label">
+              published {{ state.profile.recipeCount === 1 ? 'recipe' : 'recipes' }}
+            </span>
+          </div>
+        </div>
+
+        <mat-card-content>
+          <h2 class="section-title">About</h2>
+          @if (state.profile.bio) {
+            <p class="bio">{{ state.profile.bio }}</p>
+          } @else {
+            <p class="bio empty">
+              {{ state.isOwn ? "You haven't written a bio yet." : 'This user has no bio yet.' }}
+            </p>
+          }
+        </mat-card-content>
+      </mat-card>
+    } @else if (state.status === 'not-found') {
+      <div class="message">
+        <mat-icon aria-hidden="true">person_off</mat-icon>
+        <h1>User not found</h1>
+        <p>There is no user with the username "{{ state.username }}".</p>
+        <a mat-flat-button routerLink="/">Back to home</a>
+      </div>
+    } @else {
+      <div class="message">
+        <mat-icon aria-hidden="true">lock</mat-icon>
+        <h1>You are not logged in</h1>
+        <p>Log in to see your profile.</p>
+        <a mat-flat-button routerLink="/">Back to home</a>
+      </div>
+    }
+  } @else {
+    <div class="loading">
+      <mat-spinner diameter="40" />
+    </div>
+  }
+</section>
