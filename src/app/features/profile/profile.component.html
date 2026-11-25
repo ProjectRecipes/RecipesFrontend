@@ -32,6 +32,13 @@
               published {{ state.profile.recipeCount === 1 ? 'recipe' : 'recipes' }}
             </span>
           </div>
+
+          @if (state.isOwn) {
+            <a mat-stroked-button class="edit-button" routerLink="/profile/edit">
+              <mat-icon aria-hidden="true">edit</mat-icon>
+              Edit profile
+            </a>
+          }
         </div>
 
         <mat-card-content>

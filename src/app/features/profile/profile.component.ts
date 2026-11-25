@@ -12,7 +12,6 @@ type ProfileState =
   | { status: 'not-found'; username: string }
   | { status: 'logged-out' };
 
-
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -35,13 +34,11 @@ export class Profile implements OnInit {
           return of<ProfileState>({ status: 'logged-out' });
         }
         return this.profileService.getProfile(username).pipe(
-          map(
-            (profile): ProfileState => ({
-              status: 'loaded',
-              profile,
-              isOwn: profile.username === currentUsername,
-            }),
-          ),
+          map((profile): ProfileState => ({
+            status: 'loaded',
+            profile,
+            isOwn: profile.username === currentUsername,
+          })),
           catchError(() => of<ProfileState>({ status: 'not-found', username })),
         );
       }),

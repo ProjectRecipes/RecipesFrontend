@@ -6,3 +6,8 @@ export interface UserProfile {
   bio?: string;
   recipeCount: number;
 }
+
+export interface UpdateProfileRequest {
+  region: string | null;
+  bio: string | null;
+}
