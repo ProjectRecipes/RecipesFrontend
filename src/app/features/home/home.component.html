@@ -21,18 +21,26 @@
   >
     <mat-button-toggle value="popular">Popular</mat-button-toggle>
     <mat-button-toggle value="newest">Newest</mat-button-toggle>
-    <mat-button-toggle value="cookable">What I can cook</mat-button-toggle>
+    @if (isLoggedIn) {
+      <mat-button-toggle value="cookable">What I can cook</mat-button-toggle>
+    }
   </mat-button-toggle-group>
+
+  @if (!isLoggedIn) {
+    <p class="guest-hint">Log in to see recipes you can cook from your ingredients.</p>
+  }
 
   @if (recipes$ | async; as recipes) {
     @if (recipes.length > 0) {
       <div class="grid">
         @for (recipe of recipes; track recipe.id) {
           <div class="grid-item">
-            @if (missingCount(recipe); as missing) {
-              <span class="badge missing">Missing ingredients: {{ missing }}</span>
-            } @else if (view === 'cookable') {
-              <span class="badge ready">You have everything</span>
+            @if (missingIngredients(recipe); as missing) {
+              @if (missing.length > 0) {
+                <span class="badge missing">Missing: {{ missing.join(', ') }}</span>
+              } @else {
+                <span class="badge ready">You have everything</span>
+              }
             }
             <app-recipe-card [recipe]="recipe" />
           </div>
