@@ -9,9 +9,14 @@ const routes: Routes = [
     loadChildren: () => import('./features/home/home.module').then((m) => m.HomeModule),
   },
   {
+<<<<<<< HEAD
+    path: 'profile',
+    loadChildren: () => import('./features/profile/profile.module').then((m) => m.ProfileModule),
+=======
     path: 'admin',
     canActivate: [adminGuard],
     loadChildren: () => import('./features/admin/admin.module').then((m) => m.AdminModule),
+>>>>>>> origin/develop
   },
 ];
 
