@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Edit' : 'Add' }} – {{ data.label }}</h2>
+
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content class="dialog-content">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" cdkFocusInitial />
+      @if (form.controls.name.hasError('required')) {
+        <mat-error>Name is required.</mat-error>
+      } @else if (form.controls.name.hasError('minlength')) {
+        <mat-error>Name must have at least 2 characters.</mat-error>
+      } @else if (form.controls.name.hasError('maxlength')) {
+        <mat-error>Name can have at most 50 characters.</mat-error>
+      } @else if (form.controls.name.hasError('notUnique')) {
+        <mat-error>This name already exists.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Description (optional)</mat-label>
+      <textarea matInput formControlName="description" rows="3"></textarea>
+      @if (form.controls.description.hasError('maxlength')) {
+        <mat-error>Description can have at most 200 characters.</mat-error>
+      }
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" mat-dialog-close>Cancel</button>
+    <button mat-flat-button type="submit">Save</button>
+  </mat-dialog-actions>
+</form>
