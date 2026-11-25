@@ -1,0 +1,49 @@
+<section class="home">
+  <header class="intro">
+    <h1>Recipes</h1>
+    <p>Find a recipe you like and cook with what you already have.</p>
+  </header>
+
+  <nav class="quick-links" aria-label="App features">
+    @for (link of navLinks; track link.route) {
+      <a mat-stroked-button [routerLink]="link.route">
+        <mat-icon aria-hidden="true">{{ link.icon }}</mat-icon>
+        {{ link.label }}
+      </a>
+    }
+  </nav>
+
+  <mat-button-toggle-group
+    class="view-switch"
+    [value]="view"
+    (change)="onViewChange($event.value)"
+    aria-label="Recipe view"
+  >
+    <mat-button-toggle value="popular">Popular</mat-button-toggle>
+    <mat-button-toggle value="newest">Newest</mat-button-toggle>
+    <mat-button-toggle value="cookable">What I can cook</mat-button-toggle>
+  </mat-button-toggle-group>
+
+  @if (recipes$ | async; as recipes) {
+    @if (recipes.length > 0) {
+      <div class="grid">
+        @for (recipe of recipes; track recipe.id) {
+          <div class="grid-item">
+            @if (missingCount(recipe); as missing) {
+              <span class="badge missing">Missing ingredients: {{ missing }}</span>
+            } @else if (view === 'cookable') {
+              <span class="badge ready">You have everything</span>
+            }
+            <app-recipe-card [recipe]="recipe" />
+          </div>
+        }
+      </div>
+    } @else {
+      <p class="empty">No recipes to show.</p>
+    }
+  } @else {
+    <div class="loading">
+      <mat-spinner diameter="40" />
+    </div>
+  }
+</section>
