@@ -30,6 +30,11 @@
   overflow-x: auto;
 }
 
+.guest-hint {
+  margin: -8px 0 20px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));

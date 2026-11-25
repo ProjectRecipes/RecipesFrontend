@@ -23,6 +23,9 @@ interface NavLink {
 export class Home implements OnInit {
   private readonly homeService = inject(HomeService);
 
+  /** Only a logged-in user has an ingredient list, so only they see "What I can cook". */
+  readonly isLoggedIn = this.homeService.getCurrentUsername() !== null;
+
   /** Popular recipes are the default view (per the spec). */
   view: HomeView = 'popular';
   recipes$!: Observable<RecipeSummary[] | CookableRecipe[]>;
@@ -44,9 +47,9 @@ export class Home implements OnInit {
     this.loadRecipes();
   }
 
-  /** Number of missing ingredients (only in the "What I can cook" view). */
-  missingCount(recipe: RecipeSummary | CookableRecipe): number | null {
-    return 'missingIngredientsCount' in recipe ? recipe.missingIngredientsCount : null;
+  /** Missing ingredients (only in the "What I can cook" view), otherwise `null`. */
+  missingIngredients(recipe: RecipeSummary | CookableRecipe): string[] | null {
+    return 'missingIngredients' in recipe ? recipe.missingIngredients : null;
   }
 
   private loadRecipes(): void {
